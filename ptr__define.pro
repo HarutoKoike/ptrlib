@@ -7,7 +7,6 @@
 @ptr::help.pro
 @ptr::delete.pro
 @ptr::save.pro
-@ptr::restore.pro
 
 
 
