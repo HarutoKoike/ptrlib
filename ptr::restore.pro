@@ -1,31 +1,24 @@
 ;===========================================================+
 ; ++ NAME ++
-PRO ptr::save, _EXTRA=ex
+PRO ptr::restore, filename
 ;
 ; ++ PURPOSE ++
-;  --> save !PTR system variable
+;  --> ptr::restore restores save file created by ptr::save 
 ;
 ; ++ POSITIONAL ARGUMENTS ++
-;  -->
+;  --> filename(STRING): filename of save file
 ;
 ; ++ KEYWORDS ++
 ; -->
 ;
 ; ++ CALLING SEQUENCE ++
-;  --> ptr::save, filename='myvariables.sav'
+;  --> ptr->restore, '~/ptrlib/ptrsave.sav'
 ;
 ; ++ HISTORY ++
 ;   09/2022 H.Koike 
 ;===========================================================+
 COMPILE_OPT IDL2, STATIC
 ;
-; check
-ptr->list, count=count
-IF count EQ 0 THEN BEGIN
-  PRINT, '% No data has been stored ! '
-  RETURN
-ENDIF
-;
-ptr_save = !PTR
-SAVE, ptr_save, _EXTRA=ex
+RESTORE, filename
+DEFSYSV, '!PTR', ptr_save
 END
