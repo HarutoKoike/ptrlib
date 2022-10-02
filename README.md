@@ -8,6 +8,7 @@ COMMONと同様の使い方ができる。変数自体がグローバル変数�
 
 
 ## インストール
+IDL8.5以上推奨
 ```
 ipm, /install, 'https://github.com/HarutoKoike/ptrlib'
 ```
