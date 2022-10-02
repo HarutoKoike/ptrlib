@@ -1,18 +1,43 @@
-PRO ptr::store, vname, data, description=description, _EXTRA=ex, $
+;===========================================================+
+; ++ NAME ++
+PRO ptr::store, vname, data, description=description, $
                 overwrite=overwrite
-
+;
+; ++ PURPOSE ++
+;  --> "ptr::store" stores variable and memorize variable name and pointer in !PTR. 
+;
+; ++ POSITIONAL ARGUMENTS ++
+;  --> vname(STRING)         : name of variable to be stored
+;  --> data(any type)        : data to be stored, pointer to this variable is stored.
+;  --> description(STRING)   : description of the data
+;
+; ++ KEYWORDS ++
+; -->  overrite(LOGICAL) : Set this keyword to overwrite existing data. 
+;                          If not set, overwrite is refused.
+;
+; ++ CALLING SEQUENCE ++
+;  --> ptr->store, 'var1', indgen(100), description='difference sequence up to 100'
+;
+; ++ HISTORY ++
+;   09/2022, H.Koike(koike@kugi.kyoto-u.ac.jp)
+;===========================================================+
 COMPILE_OPT IDL2, STATIC
+;
+IF ~ISA(vname, 'STRING') THEN BEGIN
+  PRINT, '% vname must be STRING'
+  RETURN
+ENDIF
 
 IF ~KEYWORD_SET(description) THEN $
   description = ' '
 
-
-
+;
+; case: variable does not exist
 IF ~ISA( *(!PTR.VNAME) ) THEN GOTO, SKIP
 
 
 ;
-;*---------- restore data ----------*
+;*---------- overwrite data ----------*
 ;
 IF KEYWORD_SET(overwrite) THEN BEGIN
   idx = ptr->index(vname)
@@ -32,11 +57,10 @@ ENDIF
 
 
 ;
-;*---------- check variable existing  ----------*
+;*---------- check existence of variable ----------*
 ;
-dum = WHERE( STRMATCH(*(!PTR.VNAME), vname) EQ 1, count )
-IF count NE 0 THEN BEGIN
-  PRINT, '% variable "' + vname + '" is already defined'
+IF ISA(ptr->index(vname)) THEN BEGIN
+  PRINT, '% variable "' + vname + '" is already stored'
   RETURN
 ENDIF
 

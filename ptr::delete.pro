@@ -1,3 +1,4 @@
+
 PRO ptr::array_delete, arr, idx
 
 COMPILE_OPT IDL2, STATIC
@@ -14,15 +15,37 @@ END
 
 
 
-
+;===========================================================+
+; ++ NAME ++
 PRO ptr::delete, vname
-
+;
+; ++ PURPOSE ++
+;  -->
+;
+; ++ POSITIONAL ARGUMENTS ++
+;  -->
+;
+; ++ KEYWORDS ++
+; -->
+;
+; ++ CALLING SEQUENCE ++
+;  -->
+;
+; ++ HISTORY ++
+;  H.Koike 
+;===========================================================+
 COMPILE_OPT IDL2, STATIC
+;
+IF ~ISA(vname, 'STRING') THEN BEGIN
+  PRINT, '% vname must be STRING'
+  RETURN
+ENDIF 
+
 
 idx = ptr->index(vname)
-
-IF ~ISA(vname) THEN BEGIN
-  PRINT, '% Variable "' + vname + '" does not exists'
+;
+IF ~ISA(idx) THEN BEGIN
+  PRINT, '% Variable "' + vname + '" is not stored'
   RETURN
 ENDIF
  
@@ -36,12 +59,12 @@ IF N_ELEMENTS( *(!PTR.VNAME) ) EQ 1 THEN BEGIN
   RETURN
 ENDIF
 
+
 PTR_FREE, (*(!PTR.DATA))[idx]
 ptr->array_delete, *(!PTR.VNAME), idx
 ptr->array_delete, *(!PTR.DATA), idx
 ptr->array_delete, *(!PTR.ID), idx
 ptr->array_delete, *(!PTR.DESCRIPTION), idx
-
 
 
 END
